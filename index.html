@@ -36,6 +36,86 @@
             padding-bottom: 70px;
         }
 
+        /* نافذة القفل والاشتراك الإجباري */
+        #sub-lock-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .lock-box {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px 20px;
+            box-shadow: 0 10px 25px rgba(2, 136, 209, 0.15);
+            border: 2px solid #e1f5fe;
+            max-width: 380px;
+            width: 100%;
+        }
+
+        .lock-icon {
+            font-size: 50px;
+            margin-bottom: 12px;
+        }
+
+        .lock-title {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        .lock-desc {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        .btn-channel {
+            display: block;
+            width: 100%;
+            background: var(--primary);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px;
+            font-weight: 800;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 10px rgba(2, 136, 209, 0.3);
+        }
+
+        .btn-check-sub {
+            width: 100%;
+            background: #e8f5e9;
+            color: var(--success);
+            border: 2px solid var(--success);
+            padding: 13px;
+            font-weight: 800;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            cursor: pointer;
+        }
+
+        .sub-status-msg {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            min-height: 24px;
+        }
+
+        /* واجهة الدرس */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -321,6 +401,20 @@
 </head>
 <body>
 
+    <!-- نافذة قفل الاشتراك الإجباري -->
+    <div id="sub-lock-screen">
+        <div class="lock-box">
+            <div class="lock-icon">🔒</div>
+            <div class="lock-title">اشْتِرَاكٌ إِجْبَارِيٌّ</div>
+            <div class="lock-desc">
+                لِفَتْحِ الدَّرْسِ وَمُتَابَعَةِ الْأَنْشِطَةِ التَّفَاعُلِيَّةِ، يُرْجَى الِانْضِمَامُ إِلَى قَنَاتِنَا أَوَّلًا ثُمَّ الضَّغْطُ عَلَى تَأْكِيدِ الِاشْتِرَاكِ.
+            </div>
+            <a href="https://t.me/c/3910412986" target="_blank" class="btn-channel" id="channel-link">📢 الِانْضِمَامُ إِلَى الْقَنَاةِ</a>
+            <button class="btn-check-sub" onclick="verifySubscription()">✅ تَأْكِيدُ الِاشْتِرَاكِ</button>
+            <div id="sub-status-msg" class="sub-status-msg"></div>
+        </div>
+    </div>
+
     <div class="top-bar">
         <span class="app-title-mini">اللغة العربية • الوحدة الثالثة: الْفَرَاشَةُ وَالنَّمْلَةُ</span>
         <button class="audio-btn" id="audio-toggle" onclick="toggleAudio()" title="كتم/تشغيل الصوت">🔊</button>
@@ -343,8 +437,8 @@
 
         <p class="instruction">أَسْتَعْمِلُ الصِّيَغَ ( لَكِنْ ) :</p>
         <div style="background: #e8f5e9; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 12px;">
-            قَالَ الثَّعْلَبُ : « أَنَا لَا أَطْلُبُ شَيْئًا لِنَفْسِي ، <span style="color:#e65100;">لَكِنِّي</span> سَمِعْتُ أَنَّ جَمَاعَةً مِنَ الدَّجَاجِ تَبْحَثُ عَنْ دِيكٍ شُجَاعٍ ... »[cite: 5]<br>
-            • اذْكُرْ جُمَلًا عَلَى الْمِنْوَالِ : « اسْتَعْمَلَ الثَّعْلَبُ الْحِيلَةَ ، <span style="color:#e65100;">لَكِنَّ</span> الدِّيكَ صَدَّقَهُ »[cite: 5]
+            قَالَ الثَّعْلَبُ : « أَنَا لَا أَطْلُبُ شَيْئًا لِنَفْسِي ، <span style="color:#e65100;">لَكِنِّي</span> سَمِعْتُ أَنَّ جَمَاعَةً مِنَ الدَّجَاجِ تَبْحَثُ عَنْ دِيكٍ شُجَاعٍ ... »<br>
+            • اذْكُرْ جُمَلًا عَلَى الْمِنْوَالِ : « اسْتَعْمَلَ الثَّعْلَبُ الْحِيلَةَ ، <span style="color:#e65100;">لَكِنَّ</span> الدِّيكَ صَدَّقَهُ »
         </div>
 
         <p class="instruction">أَكْمِلِ التَّعْبِيرَ عَنِ الصُّوَرِ مُوَظِّفًا ( لَكِنْ ) :</p>
@@ -418,7 +512,7 @@
             قَالَتِ الْفَرَاشَةُ : « أَلَا تَرَيْنَ مَا أَنْتِ عَلَيْهِ مِنْ قُبْحِ الْمَنْظَرِ ؟ فَثَوْبُكِ ثَوْبُ حُزْنٍ لَا تَخْلَعِينَهُ » .<br><br>
             عِنْدَ ذَلِكَ ، انْتَفَضَتِ النَّمْلَةُ غَاضِبَةً وَأَجَابَتْهَا : « إِنَّ الْجَمَالَ جَمَالُ الْعُقُولِ وَالْأَعْمَالِ ، لَا حُسْنُ الثَّوْبِ وَالْجَسَدِ ! » .<br><br>
             فَرَدَّتِ الْفَرَاشَةُ قَائِلَةً : « أَنَا فَاتِنَةٌ ، انْظُرِي إِلَى كُلِّ هَذِهِ الْأَنَاقَةِ الْكُلُّ مُعْجَبٌ بِي ، هَا هُمُ الْأَطْفَالُ يَتْبَعُونَنِي مِنْ مَكَانٍ إِلَى مَكَانٍ ، إِعْجَابًا بِجَمَالِي » .<br><br>
-            قَاطَعَتْهَا النَّمْلَةُ قَائِلَةً : « نَعَمْ حَتَّى يَقْبِضُوا عَلَيْكِ أَوْ تَمُوتِي تَعَبًا ، هُرُوبًا مِنْ مُلَاحَقَتِهِمْ ، فَهَلْ تَرَيْنَ أَيَّتُهَا الْمَغْرُورَةُ فَائِدَةَ الْجَمَالِ إِذَا لَمْ يَكُنْ مَصْحُوبًا بِسَلَامَةِ الْعَقْلِ وَحُسْنِ التَّدْبِيرِ ؟ » [عن كتاب السنة السادسة أساسي - شوقي الكيلاني بتصرف][cite: 6]
+            قَاطَعَتْهَا النَّمْلَةُ قَائِلَةً : « نَعَمْ حَتَّى يَقْبِضُوا عَلَيْكِ أَوْ تَمُوتِي تَعَبًا ، هُرُوبًا مِنْ مُلَاحَقَتِهِمْ ، فَهَلْ تَرَيْنَ أَيَّتُهَا الْمَغْرُورَةُ فَائِدَةَ الْجَمَالِ إِذَا لَمْ يَكُنْ مَصْحُوبًا بِسَلَامَةِ الْعَقْلِ وَحُسْنِ التَّدْبِيرِ ؟ » [عن كتاب السنة السادسة أساسي - شوقي الكيلاني بتصرف]
         </div>
     </div>
 
@@ -508,7 +602,7 @@
         
         <p class="instruction">أُلاحِظُ وَأُمَيِّزُ :</p>
         <div style="background:#fff3e0; border-right:4px solid #ff9800; padding:12px; border-radius:8px; line-height:2.2; font-size:1.05rem; margin-bottom:12px;">
-            « وَإِذَا بِفَرَاشَةٍ بَدِيعَةٍ تَنْتَقِلُ بِرَشَاقَةٍ <span style="color:#d32f2f; font-weight:bold;">مِنْ</span> مَكَانٍ <span style="color:#d32f2f; font-weight:bold;">إِلَى</span> مَكَانٍ ، فَنَزَلَتْ <span style="color:#d32f2f; font-weight:bold;">عَلَى</span> حَافَةِ وَرْدَةٍ حَمْرَاءَ فَرَأَتْ تَحْتَهَا نَمْلَةً سَوْدَاءَ خَاطَبَتْهَا قَائِلَةً لَهَا : حَقًّا <span style="color:#d32f2f; font-weight:bold;">لَا</span> يَلِيقُ بِمِثْلِكِ <span style="color:#d32f2f; font-weight:bold;">أَنْ</span> يَقِفَ بِجَانِبِ الْوُرُودِ »[cite: 8]
+            « وَإِذَا بِفَرَاشَةٍ بَدِيعَةٍ تَنْتَقِلُ بِرَشَاقَةٍ <span style="color:#d32f2f; font-weight:bold;">مِنْ</span> مَكَانٍ <span style="color:#d32f2f; font-weight:bold;">إِلَى</span> مَكَانٍ ، فَنَزَلَتْ <span style="color:#d32f2f; font-weight:bold;">عَلَى</span> حَافَةِ وَرْدَةٍ حَمْرَاءَ فَرَأَتْ تَحْتَهَا نَمْلَةً سَوْدَاءَ خَاطَبَتْهَا قَائِلَةً لَهَا : حَقًّا <span style="color:#d32f2f; font-weight:bold;">لَا</span> يَلِيقُ بِمِثْلِكِ <span style="color:#d32f2f; font-weight:bold;">أَنْ</span> يَقِفَ بِجَانِبِ الْوُرُودِ »
         </div>
 
         <p class="instruction">الْكَلِمَاتُ الْمُلَوَّنَةُ بِالْأَحْمَرِ تَدُلُّ عَلَى :</p>
@@ -518,7 +612,7 @@
 
         <p class="instruction">أَكْتَشِفُ وَأَسْتَعْمِلُ التَّاءَ الْمَرْبُوطَةَ :</p>
         <div style="background:#e8f5e9; border-right:4px solid #2e7d32; padding:12px; border-radius:8px; line-height:2.2; font-size:1.05rem; margin-bottom:12px;">
-            « كَانَتِ السَّمَاءُ <span style="color:#2e7d32; font-weight:bold;">صَافِيَةً</span> وَالشَّمْسُ <span style="color:#2e7d32; font-weight:bold;">الدَّافِئَةُ</span> تُلْقِي أَضْوَاءَهَا الذَّهَبِيَّةَ عَلَى الْأَرْضِ وَالْحُقُولُ مُرْتَدِيَةً أَجْمَلَ أَثْوَابِهَا <span style="color:#2e7d32; font-weight:bold;">الْمُلَوَّنَةِ</span> »[cite: 8]
+            « كَانَتِ السَّمَاءُ <span style="color:#2e7d32; font-weight:bold;">صَافِيَةً</span> وَالشَّمْسُ <span style="color:#2e7d32; font-weight:bold;">الدَّافِئَةُ</span> تُلْقِي أَضْوَاءَهَا الذَّهَبِيَّةَ عَلَى الْأَرْضِ وَالْحُقُولُ مُرْتَدِيَةً أَجْمَلَ أَثْوَابِهَا <span style="color:#2e7d32; font-weight:bold;">الْمُلَوَّنَةِ</span> »
         </div>
         <div id="ex-p20-ta-mcq"></div>
 
@@ -854,11 +948,59 @@
     </div>
 
 <script>
+    // بيانات البوت والقناة للتحقق الإجباري
+    const BOT_TOKEN = "8913916635:AAE3WzXKYQVnwvmB27FSp48E2SITeOQL_Sc";
+    const CHANNEL_ID = "-1003910412986";
+
     // تهيئة Telegram WebApp
     const tg = window.Telegram?.WebApp;
     if(tg) {
         tg.ready();
         tg.expand();
+    }
+
+    // التحقق من الاشتراك الإجباري
+    async function verifySubscription() {
+        const statusMsg = document.getElementById('sub-status-msg');
+        statusMsg.style.color = "#0288d1";
+        statusMsg.textContent = "جَارٍ التَّحَقُّقُ مِنَ الِاشْتِرَاكِ...";
+
+        let userId = null;
+        if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            userId = tg.initDataUnsafe.user.id;
+        }
+
+        if (!userId) {
+            statusMsg.style.color = "#e65100";
+            statusMsg.textContent = "يُرْجَى فَتْحُ التَّطْبِيقِ دَاخِلَ تِلْيِجْرَام لِلتَّحَقُّقِ.";
+            return;
+        }
+
+        try {
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/getChatMember?chat_id=${CHANNEL_ID}&user_id=${userId}`;
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.ok && data.result) {
+                const status = data.result.status;
+                if (['creator', 'administrator', 'member'].includes(status)) {
+                    statusMsg.style.color = "#2e7d32";
+                    statusMsg.textContent = "تَمَّ التَّأَكُّدُ بِنَجَاحٍ! جَارٍ فَتْحُ الدَّرْسِ...";
+                    setTimeout(() => {
+                        document.getElementById('sub-lock-screen').style.display = 'none';
+                    }, 600);
+                } else {
+                    statusMsg.style.color = "#c62828";
+                    statusMsg.textContent = "لَمْ تَنْتَسِبْ إِلَى الْقَنَاةِ بَعْدُ، يُرْجَى الِانْضِمَامُ أَوَّلًا.";
+                }
+            } else {
+                statusMsg.style.color = "#c62828";
+                statusMsg.textContent = "تَعَذَّرَ التَّحَقُّقُ، تَأَكَّدْ أَنَّ الْبُوتَ مُشْرِفٌ فِي الْقَنَاةِ.";
+            }
+        } catch (error) {
+            statusMsg.style.color = "#c62828";
+            statusMsg.textContent = "حَدَثَ خَطَأٌ فِي الِاتِّصَالِ، حَاوِلْ مَرَّةً أُخْرَى.";
+        }
     }
 
     // إدارة الصوت بتقنية Web Audio API
@@ -1180,7 +1322,7 @@
         });
     }
 
-    // نظام تلوين الصفات واختيارها (خاص بنشاط كراس الأنشطة ص 12)
+    // نظام تلوين الصفات واختيارها
     function setupColorTraits(containerId, traits, badgeId) {
         const container = document.getElementById(containerId);
         container.innerHTML = '';
@@ -1218,6 +1360,9 @@
         totalWrongAnswers = 0;
         updateLiveReport();
 
+        // فحص تلقائي للاشتراك عند التشغيل
+        verifySubscription();
+
         // 1. كتاب التلميذ - صفحة 17
         setupTapToFill('pool-p17-lakin', '#pool-p17-lakin ~ div p .drop-zone', 'ex-p17', [
             { label: "لَكِنَّ", val: "لَكِنَّ" },
@@ -1247,7 +1392,6 @@
             }
         ]);
 
-        // مطابقة الجمل بنهاية القصة المصورة
         setupTapToFill('pool-p17-endings', '#pool-p17-endings ~ div div .drop-zone', 'ex-p17-oral', [
             { label: "صَعِدَ الدِّيكُ فَوْقَ الشَّجَرَةِ فَلَمْ يَسْتَطِعِ الثَّعْلَبُ الْوُصُولَ إِلَيْهِ", val: "صَعِدَ الدِّيكُ فَوْقَ الشَّجَرَةِ فَلَمْ يَسْتَطِعِ الثَّعْلَبُ الْوُصُولَ إِلَيْهِ" },
             { label: "خَرَجَ كَلْبُ الْحِرَاسَةِ وَنَبَحَ عَلَى الثَّعْلَبِ فَهَرَبَ خَائِفًا", val: "خَرَجَ كَلْبُ الْحِرَاسَةِ وَنَبَحَ عَلَى الثَّعْلَبِ فَهَرَبَ خَائِفًا" },
@@ -1375,7 +1519,6 @@
             { label: "« هَذَا جَزَاءُ الْغُرُورِ ، وَالْآنَ أَبْحَثُ عَنْ مَغْرُورٍ آخَرَ »", val: "fox" }
         ]);
 
-        // تلوين واختيار الصفات للديك والثعلب حسب المنهج
         setupColorTraits('box-rooster-traits', [
             { label: "مَغْرُورٌ", isCorrect: true },
             { label: "ذَكِيٌّ", isCorrect: false },
